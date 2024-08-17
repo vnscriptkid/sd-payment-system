@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Completion</title>
+</head>
+<body>
+    <h1>Payment Completed</h1>
+    <p id="message">Your payment was successful!</p>
+
+    <script>
+        // Extract query parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id');
+        const payResult = urlParams.get('payResult');
+
+        // Display message based on payment result
+        const messageElement = document.getElementById('message');
+        if (payResult === 'succeeded') {
+            messageElement.textContent = `Thank you! Your payment for order ${orderId} was successful.`;
+        } else {
+            messageElement.textContent = `There was an issue with your payment for order ${orderId}. Please try again.`;
+        }
+    </script>
+</body>
+</html>

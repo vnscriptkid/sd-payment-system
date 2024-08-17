@@ -1,0 +1,5 @@
+# checkout
+POST http://localhost:8080/checkout
+Content-Type: application/json
+
+{}

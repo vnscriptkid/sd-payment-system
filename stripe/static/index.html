@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form id="payment-form" style="width: 500px;">
+        <div id="card-element"></div>
+        <button id="submit">Pay</button>
+    </form>
+
+    <script>
+        var stripe = Stripe('pk_test_xxx');
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetch('/checkout', {
+                method: 'POST'
+            })
+            .then(response => response.text())
+            .then(clientSecret => {
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {   
+                        card: cardElement,
+                        billing_details: {
+                            name: 'Customer Name', // Replace with actual customer name
+                        }
+                    }
+                }).then(function(result) {
+                    if (result.error) {
+                        // Show error to your customer
+                        console.log(result.error.message);
+                    } else {
+                        if (result.paymentIntent.status === 'succeeded') {
+                            window.location.href = '/completion?order_id=order_123&payResult=succeeded';
+                        } else {
+                            window.location.href = '/completion?order_id=order_123&payResult=failed';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
