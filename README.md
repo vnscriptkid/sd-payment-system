@@ -29,3 +29,6 @@ erDiagram
 ## Thoughts
 - Simplify `payment_event`, `payment_order` into one table for interview purpose
 - `payment_order`, `ledger`, `wallet` in the same service/database, so that we can use transaction to ensure consistency -> introduce lock, deadlock
+
+## Sources
+- https://youtu.be/zsD4R_aQctw?si=hPrxnQpJ-DCsX1ee
